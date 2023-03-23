@@ -34,7 +34,7 @@ def register():
             try:
                 db.execute(
                     "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(passowrd)),
+                    (username, generate_password_hash(password)),
                 )
                 db.commit()
             except db.IntegrityError:
@@ -61,14 +61,14 @@ def login():
         if user is None:
             error = "Incorrect username."
         elif not check_password_hash(user["password"], password):
-            error = "Incorredt password."
+            error = "Incorrect password."
 
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
             return redirect(url_for("index"))
 
-        falsh(error)
+        flash(error)
 
     return render_template("auth/login.html")
 
